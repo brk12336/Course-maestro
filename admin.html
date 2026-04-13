@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin – CuisineOrder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,158,11,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER (Admin) ── -->
+<header class="header" id="adminHeader" style="display:none">
+  <a href="index.html" class="header-logo">
+    <div class="logo-icon">🍕</div>
+    <span class="logo-text">CuisineOrder</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span style="font-size:12px;color:var(--text-muted);font-weight:500;">🔒 Panel Admin</span>
+  </div>
+  <div class="header-actions">
+    <a href="index.html" class="btn btn-ghost">← Commandes</a>
+    <button class="btn btn-danger" id="btnLogout">Déconnexion</button>
+  </div>
+</header>
+
+<!-- ── LOGIN SCREEN ── -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">🔒</div>
+      <div class="login-logo-text">Admin Panel</div>
+    </div>
+    <p class="login-sub">Connectez-vous pour accéder aux commandes</p>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="passwordInput">Mot de passe</label>
+        <input type="password" class="form-input" id="passwordInput"
+               placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="login-error" id="loginError"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:13px;">
+        Connexion →
+      </button>
+    </form>
+
+    <div style="margin-top:24px;text-align:center;">
+      <a href="index.html" style="font-size:13px;color:var(--text-muted);text-decoration:none;">
+        ← Retour aux commandes
+      </a>
+    </div>
+
+    <div style="margin-top:32px;padding:12px;background:var(--bg-3);border-radius:10px;font-size:12px;color:var(--text-muted);text-align:center;">
+      💡 Mot de passe par défaut : <code style="color:var(--accent)">admin123</code><br>
+      <span style="opacity:.7">À changer dans le fichier <code>js/admin.js</code></span>
+    </div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard" style="display:none">
+  <div class="dashboard">
+
+    <div class="dashboard-header">
+      <div>
+        <h1 class="section-title">📊 Tableau de Bord</h1>
+        <p class="section-sub">Gérez toutes les commandes passées</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="btnExport">📥 Export CSV</button>
+        <button class="btn btn-danger" id="btnDeleteAll">🗑️ Tout supprimer</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Total commandes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPending" style="color:#f59e0b">0</div>
+        <div class="stat-label">En attente</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statDone" style="color:#22c55e">0</div>
+        <div class="stat-label">Reçues</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statWeek" style="color:#60a5fa">0</div>
+        <div class="stat-label">Cette semaine</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="orders-toolbar">
+      <select class="filter-select" id="filterStatus">
+        <option value="all">Tous les statuts</option>
+        <option value="en_attente">⏳ En attente</option>
+        <option value="en_cours">🔄 En cours</option>
+        <option value="reçue">✅ Reçue</option>
+      </select>
+      <input type="text" class="filter-input" id="filterSearch"
+             placeholder="🔍 Rechercher…">
+    </div>
+
+    <!-- Orders list -->
+    <div id="ordersList">
+      <!-- Généré par JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="js/products.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  // Show header when dashboard is visible
+  const obs = new MutationObserver(() => {
+    const dash = document.getElementById('dashboard');
+    const hdr  = document.getElementById('adminHeader');
+    if (dash && dash.style.display !== 'none') hdr.style.display = 'flex';
+    else hdr.style.display = 'none';
+  });
+  obs.observe(document.getElementById('dashboard'), { attributes: true });
+</script>
+</body>
+</html>
