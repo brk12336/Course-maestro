@@ -1,5 +1,5 @@
 // ── AUTH ──────────────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = 'Zari95140'; // ← Change ce mot de passe !
+const ADMIN_PASSWORD = 'admin123'; // ← Change ce mot de passe !
 const AUTH_KEY = 'restoAdminAuth';
 const ORDERS_KEY = 'restoOrders';
 
